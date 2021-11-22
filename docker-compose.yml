@@ -1,0 +1,49 @@
+#########################################################################
+#                                                                       #
+# Docker orquestration to build full Mongo Server Arquiteture #
+#                                                                       #
+# Summary of this docker-compose.yml file                               #
+#                                                                       #
+# |------------Services----------|---------Ports by service--------|    #
+# |1. ---------mongodb-----------|-------------(:27017)------------|    #
+# |9. -------mongo-express-------|-------------(:27018)------------|    #
+#                                                                       #
+#                                                                       #
+# Network: mongo-network bridge                                   #
+#                                                                       #
+#########################################################################
+
+
+version: "3"
+services:
+    mongodb:
+        container_name: mongodb
+        restart: always
+        build:
+            context: ./build/mongodb
+            dockerfile: Dockerfile
+        environment:
+            MONGO_INITDB_ROOT_USERNAME: admin
+            MONGO_INITDB_ROOT_PASSWORD: M0ng04dm1n#
+        networks:
+            - mongo-network
+
+    mongo-express:
+        container_name: mongo-express
+        restart: always
+        build:
+            context: ./build/mongo-express
+            dockerfile: Dockerfile
+        environment:
+            ME_CONFIG_MONGODB_ADMINUSERNAME: admin
+            ME_CONFIG_MONGODB_ADMINPASSWORD: M0ng04dm1n#
+            ME_CONFIG_MONGODB_SERVER: mongodb
+        ports:
+            - 27018:8081
+        networks:
+            - mongo-network
+
+
+networks:
+    mongo-network:
+        driver: bridge
