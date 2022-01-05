@@ -20,11 +20,13 @@ services:
         container_name: mongodb
         restart: always
         build:
-            context: ./build/mongodb
+            context: ./mongodb/build
             dockerfile: Dockerfile
         environment:
             MONGO_INITDB_ROOT_USERNAME: admin
-            MONGO_INITDB_ROOT_PASSWORD: M0ng04dm1n#
+            MONGO_INITDB_ROOT_PASSWORD: M0ng04dm1n
+        ports:
+            - 27017:27017
         networks:
             - mongo-network
 
@@ -32,11 +34,11 @@ services:
         container_name: mongo-express
         restart: always
         build:
-            context: ./build/mongo-express
+            context: ./mongo-express/build
             dockerfile: Dockerfile
         environment:
             ME_CONFIG_MONGODB_ADMINUSERNAME: admin
-            ME_CONFIG_MONGODB_ADMINPASSWORD: M0ng04dm1n#
+            ME_CONFIG_MONGODB_ADMINPASSWORD: M0ng04dm1n
             ME_CONFIG_MONGODB_SERVER: mongodb
         ports:
             - 27018:8081

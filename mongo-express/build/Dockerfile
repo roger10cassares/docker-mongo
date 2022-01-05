@@ -1,4 +1,4 @@
-FROM mongo-express:0.54.0
+FROM mongo-express:1.0.0-alpha.4
 
 MAINTAINER roger10cassares <roger10cassares@gmail.com>
 
